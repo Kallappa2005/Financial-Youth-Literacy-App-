@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,143 +10,103 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Finance Lessons'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 1', pages: lesson1Content)),
-                );
-              },
-              child: const Text('Lesson 1: Introduction to Financial Management'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 2', pages: lesson2Content)),
-                );
-              },
-              child: const Text('Lesson 2: Budgeting Basics'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 3', pages: lesson3Content)),
-                );
-              },
-              child: const Text('Lesson 3: Managing Debt Effectively'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 4', pages: lesson4Content)),
-                );
-              },
-              child: const Text('Lesson 4: Saving and Investing'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 5', pages: lesson5Content)),
-                );
-              },
-              child: const Text('Lesson 5: Retirement Planning'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LessonNavigator(title: 'Lesson 6', pages: lesson6Content)),
-                );
-              },
-              child: const Text('Lesson 6: Financial Goal Setting'),
-            ),
-          ],
+      theme: ThemeData(
+        primarySwatch: Colors.grey, // Neutral color for the app theme
+        scaffoldBackgroundColor: Colors.grey[100], // Light grey background color
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.grey[800]), // Set default text color
         ),
       ),
+      home: const SignInPage(),
     );
   }
 }
 
-// Lesson Navigator
-class LessonNavigator extends StatefulWidget {
-  final String title;
-  final List<String> pages;
-
-  const LessonNavigator({super.key, required this.title, required this.pages});
-
-  @override
-  _LessonNavigatorState createState() => _LessonNavigatorState();
-}
-
-class _LessonNavigatorState extends State<LessonNavigator> {
-  int currentPage = 0;
+class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        elevation: 0,
+        backgroundColor: Colors.transparent, // Make AppBar transparent
+        automaticallyImplyLeading: false, // Remove the back button
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  widget.pages[currentPage],
-                  style: TextStyle(fontSize: 16),
+            // Logo and tagline
+            const Text(
+              'BUDGET LOFT',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Times New Roman', // Adjust as needed
+                color: Colors.black, // Dark color for title
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'idea of saving money with the idea of a lofty goal',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600], // Soft grey color for tagline
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 40),
+            // Sign-In button
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to HomeScreen after successful sign-in
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                backgroundColor: Colors.grey[800], // Dark grey button background
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'SIGN IN',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white, // White text color
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: currentPage > 0
-                      ? () {
-                    setState(() {
-                      currentPage--;
-                    });
-                  }
-                      : null,
-                  child: Text('Previous'),
-                ),
-                ElevatedButton(
-                  onPressed: currentPage < widget.pages.length - 1
-                      ? () {
-                    setState(() {
-                      currentPage++;
-                    });
-                  }
-                      : null,
-                  child: Text('Next'),
-                ),
-              ],
+            const SizedBox(height: 30),
+            // User ID (Email or Phone) input field
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'User ID (Email or Phone)',
+                border: const OutlineInputBorder(),
+                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                labelStyle: TextStyle(color: Colors.grey[700]), // Soft grey label color
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+            // Password input field
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: const OutlineInputBorder(),
+                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                labelStyle: TextStyle(color: Colors.grey[700]), // Soft grey label color
+              ),
             ),
           ],
         ),
@@ -154,60 +115,54 @@ class _LessonNavigatorState extends State<LessonNavigator> {
   }
 }
 
-// Lesson Content
-const List<String> lesson1Content = [
-  '''Page 1 of Lesson 1:
-Financial management is the process of planning, organizing, directing, and controlling financial activities to ensure stability and growth. It involves activities like budgeting, saving, and analyzing financial health.''',
-  '''Page 2 of Lesson 1:
-Proper financial management helps achieve goals such as avoiding debt, preparing for emergencies, and building wealth. Learn key principles to manage your finances effectively.''',
-  '''Page 3 of Lesson 1:
-By setting clear goals, tracking expenses, and prioritizing savings, you can master financial management and gain control of your financial future.''',
-];
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
-const List<String> lesson2Content = [
-  '''Page 1 of Lesson 2:
-Budgeting is the cornerstone of financial success. A budget is a plan that helps you allocate income to expenses, savings, and other priorities.''',
-  '''Page 2 of Lesson 2:
-Methods like the 50/30/20 rule divide your income: 50% for needs, 30% for wants, and 20% for savings and debt repayment. Tailor these methods to fit your lifestyle.''',
-  '''Page 3 of Lesson 2:
-Use apps or spreadsheets to track expenses and stick to your budget. Budgeting not only controls spending but also helps you identify areas for improvement.''',
-];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Screen'),
+        backgroundColor: Colors.grey[400], // Slightly darker grey for app bar
+        titleTextStyle: const TextStyle(color: Colors.black), // Adjust title color for contrast
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0), // Padding around the buttons
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Start Learning Button
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to Start Learning Page (You can implement navigation later)
+                if (kDebugMode) {
+                  print('Start Learning Pressed');
+                }
+              },
+              child: const Text('Start Learning', style: TextStyle(fontSize: 18)),
+            ),
+            const SizedBox(height: 20), // Space between buttons
+            // Expense Tracker Button
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to Expense Tracker Page (You can implement navigation later)
+                if (kDebugMode) {
+                  print('Expense Tracker Pressed');
+                }
+              },
+              child: const Text('Expense Tracker', style: TextStyle(fontSize: 18)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-const List<String> lesson3Content = [
-  '''Page 1 of Lesson 3:
-Managing debt is essential for financial freedom. Start by creating a repayment strategy for high-interest debts like credit cards.''',
-  '''Page 2 of Lesson 3:
-Debt Snowball Method: Focus on smaller debts first for quick wins. Debt Avalanche Method: Prioritize debts with higher interest rates for long-term savings.''',
-  '''Page 3 of Lesson 3:
-Avoid accumulating unnecessary debt by budgeting wisely and building an emergency fund to cover unexpected expenses.''',
-];
 
-const List<String> lesson4Content = [
-  '''Page 1 of Lesson 4:
-Saving is the foundation of financial security. Building an emergency fund protects you from unforeseen financial challenges.''',
-  '''Page 2 of Lesson 4:
-Investing grows your wealth over time. Options include stocks, bonds, real estate, and mutual funds. Diversify to balance risk and reward.''',
-  '''Page 3 of Lesson 4:
-Start investing early to benefit from compound growth. Understand your risk tolerance and set long-term financial goals.''',
-];
 
-const List<String> lesson5Content = [
-  '''Page 1 of Lesson 5:
-Retirement planning ensures a secure future. Begin early to maximize savings and benefit from compound interest.''',
-  '''Page 2 of Lesson 5:
-Retirement accounts like 401(k)s and IRAs offer tax benefits. Contribute consistently and increase contributions as your income grows.''',
-  '''Page 3 of Lesson 5:
-Review your retirement plan regularly to align with changing goals. Seek professional advice for optimal retirement strategies.''',
-];
 
-const List<String> lesson6Content = [
-  '''Page 1 of Lesson 6:
-Financial goal setting provides direction and purpose. SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound) are effective.''',
-  '''Page 2 of Lesson 6:
-Define short-term goals (e.g., emergency fund), mid-term goals (e.g., car purchase), and long-term goals (e.g., home ownership).''',
-  '''Page 3 of Lesson 6:
-Track progress and adjust your plans as needed. Stay disciplined and consistent to achieve financial success.''',
-];
 
 
 
